@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const BROKER_CREATE_MUTATION = gql`
-  mutation BrokerCreate($data: BrokerCreateInput!) {
-    brokerCreate(data: $data) {
+export const CLIENT_CREATE_MUTATION = gql`
+  mutation ClientCreate($data: ClientCreateInput!) {
+    clientCreate(data: $data) {
       id
     }
   }
@@ -20,195 +20,190 @@ export const USERS_LIST_QUERY = gql`
   }
 `;
 
-export const BROKER_DELETE_MUTATION = gql`
-  mutation BrokerDelete($id: ID!) {
-    brokerDelete(data: { id: $id }) {
+export const CLIENT_DELETE_MUTATION = gql`
+  mutation ClientDelete($id: ID!) {
+    clientDelete(data: { id: $id }) {
       success
     }
   }
 `;
 
-export const CUSTOMER_CREATE_MUTATION = gql`
-  mutation CustomerCreate($data: CustomerCreateInput!) {
-    customerCreate(data: $data) {
+export const PRODUCT_CREATE_MUTATION = gql`
+  mutation ProductCreate($data: ProductCreateInput!) {
+    productCreate(data: $data) {
       id
     }
   }
 `;
 
-export const CUSTOMER_DELETE_MUTATION = gql`
-  mutation CustomerDelete($id: ID!) {
-    customerDelete(data: { id: $id }) {
+export const PRODUCT_DELETE_MUTATION = gql`
+  mutation ProductDelete($id: ID!) {
+    productDelete(data: { id: $id }) {
       success
     }
   }
 `;
 
-export const CUSTOMERS_LIST_QUERY = gql`
-  query CustomersList {
-    customersList {
+export const PRODUCTS_LIST_QUERY = gql`
+  query ProductsList {
+    productsList {
       items {
         id
-        user {
-          email
-          firstName
-          lastName
-        }
-        purchases {
-          count
-        }
-        sales {
-          count
-        }
-      }
-    }
-  }
-`;
-
-export const LISTING_CREATE_MUTATION = gql`
-  mutation ListingCreate($data: ListingCreateInput!) {
-    listingCreate(data: $data) {
-      id
-    }
-  }
-`;
-
-export const LISTING_UPDATE_MUTATION = gql`
-  mutation ListingUpdate($data: ListingUpdateInput!) {
-    listingUpdate(data: $data) {
-      id
-    }
-  }
-`;
-
-export const LISTING_SHARE_MUTATION = gql`
-  mutation ListingShare($id: ID!, $email: String!) {
-    listingShare(id: $id, email: $email) {
-      success
-    }
-  }
-`;
-
-export const LISTING_DELETE_MUTATION = gql`
-  mutation ListingDelete($id: ID!) {
-    listingDelete(data: { id: $id }) {
-      success
-    }
-  }
-`;
-
-export const BROKERS_LIST_QUERY = gql`
-  query BrokersList {
-    brokersList {
-      items {
-        id
-        user {
-          email
-          firstName
-          lastName
-        }
-        listings {
-          count
-        }
-      }
-    }
-  }
-`;
-
-export const LISTINGS_LIST_QUERY = gql`
-  query ListingsList($orderBy: [ListingOrderBy], $skip: Int, $first: Int) {
-    listingsList(orderBy: $orderBy, skip: $skip, first: $first) {
-      items {
-        id
-        createdAt
-        updatedAt
-        property {
+        name
+        picture {
           id
-          title
+          downloadUrl
         }
-        broker {
-          id
-          user {
-            firstName
-            lastName 
-          }
-        }
-        buyer {
-          id
-          user {
-            firstName
-            lastName 
-          }
-        }
-        seller {
-          id
-          user {
-            firstName
-            lastName 
-          }
-        }
-        documents {
-          items {
-            id
-            filename
-            downloadUrl
-          }
-        }
-        status
-        closingDate
+        description
         price
       }
-      count
     }
   }
 `;
 
-export const PROPERTY_DELETE_MUTATION = gql`
-  mutation PropertyDelete($id: ID!) {
-    propertyDelete(data: { id: $id }) {
+export const CLIENTS_LIST_QUERY = gql`
+  query ClientsList {
+    clientsList {
+      items {
+        id
+        firstName
+        lastName
+        email
+        phone
+        birthday
+      }
+    }
+  }
+`;
+
+export const ORDER_DELETE_MUTATION = gql`
+  mutation OrderDelete($id: ID!) {
+    orderDelete(data: { id: $id }) {
       success
     }
   }
 `;
 
-export const PROPERTY_CREATE_MUTATION = gql`
-  mutation PropertyCreate($data: PropertyCreateInput!) {
-    propertyCreate(data: $data) {
+export const ORDER_CREATE_MUTATION = gql`
+  mutation OrderCreate($data: OrderCreateInput!) {
+    orderCreate(data: $data) {
       id
     }
   }
 `;
 
-export const PROPERTY_UPDATE_MUTATION = gql`
-  mutation PropertyUpdate($data: PropertyUpdateInput!) {
-    propertyUpdate(data: $data) {
+export const ORDER_UPDATE_MUTATION = gql`
+  mutation OrderUpdate($data: OrderUpdateInput!) {
+    orderUpdate(data: $data) {
       id
     }
   }
 `;
 
-export const PROPERTIES_LIST_QUERY = gql`
-  query PropertiesList {
-    propertiesList {
+export const ORDERS_LIST_QUERY = gql`
+  query OrdersList {
+    ordersList {
       items {
         id
-        createdAt
-        updatedAt
-        pictures {
+        client {
+          firstName
+          lastName
+          email
+          phone
+          birthday
+        }
+        address
+        deliveryDt
+        status
+        comment
+        orderItems {
+          count
           items {
-            id
-            downloadUrl
-            shareUrl
+            product {
+              price
+            }
           }
         }
-        bedrooms
-        title
-        description
-        sqFootage
-        bathrooms
-        garage
-        pool
       }
     }
+  }
+`;
+
+export const CLIENT_QUERY = gql`
+  query Client($id: ID!) {
+    client(id: $id) {
+      _description
+      birthday
+      email
+      firstName
+      id
+      lastName
+      orders {
+        items {
+          id
+          _description
+          address
+          comment
+          deliveryDt
+          status
+          orderItems {
+            items {
+              id
+              quantity
+              product {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+      phone
+    }
+  }
+`;
+
+export const CLIENT_UPDATE_MUTATION = gql`
+  mutation ClientUpdate($data: ClientUpdateInput!) {
+    clientUpdate(data: $data) {
+      id
+    }
+  }
+`;
+
+export const PRODUCT_UPDATE_MUTATION = gql`
+  mutation ProductUpdate($data: ProductUpdateInput!) {
+    productUpdate(data: $data) {
+      id
+    }
+  }
+`;
+
+export const ORDER_QUERY = gql`
+  query Order($id: ID!) {
+    order(id: $id) {
+    orderItems {
+      count
+      items {
+        _description
+        id
+        product {
+          name
+          id
+          price
+        }
+      }
+    }
+    id
+    _description
+    address
+    comment
+    deliveryDt
+    client {
+      firstName
+      email
+      lastName
+    }
+  }
   }
 `;

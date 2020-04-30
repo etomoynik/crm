@@ -10,25 +10,29 @@ import { TOAST_SUCCESS_MESSAGE } from 'shared/constants';
 
 import { MainPlate, ContentPlate, Nav } from './components';
 import { Auth as AuthCallback } from './routes/auth';
-import { Brokers } from './routes/brokers';
-import { Customers } from './routes/customers';
-import { Properties } from './routes/properties';
-import { Listings } from './routes/listings';
+import { Clients } from './routes/clients';
+import { Client } from './routes/clients/client';
+import { Products } from './routes/products';
+import { Orders } from './routes/orders';
+import { Order } from './routes/orders/order';
 
 const { REACT_APP_8BASE_API_ENDPOINT } = process.env;
 
 const AUTH0_CLIENT_ID = 'qGHZVu5CxY5klivm28OPLjopvsYp0baD';
 const AUTH0_CLIENT_DOMAIN = 'auth.8base.com';
 
-const authClient = Auth.createClient({
-  strategy: AUTH_STRATEGIES.WEB_AUTH0,
-  subscribable: true,
-}, {
-  clientId: AUTH0_CLIENT_ID,
-  domain: AUTH0_CLIENT_DOMAIN,
-  redirectUri: `${window.location.origin}/auth/callback`,
-  logoutRedirectUri: `${window.location.origin}/auth`,
-});
+const authClient = Auth.createClient(
+  {
+    strategy: AUTH_STRATEGIES.WEB_AUTH0,
+    subscribable: true,
+  },
+  {
+    clientId: AUTH0_CLIENT_ID,
+    domain: AUTH0_CLIENT_DOMAIN,
+    redirectUri: `${window.location.origin}/auth/callback`,
+    logoutRedirectUri: `${window.location.origin}/auth`,
+  }
+);
 
 class Application extends React.PureComponent {
   renderContent = ({ loading }) => (
@@ -38,18 +42,18 @@ class Application extends React.PureComponent {
         <Route>
           <MainPlate>
             <Nav.Plate color="BLUE">
-              <Nav.Item icon="Group" to="/brokers" label="Brokers" />
-              <Nav.Item icon="Customers" to="/customers" label="Customers" />
-              <Nav.Item icon="House" to="/properties" label="Properties" />
-              <Nav.Item icon="Contract" to="/listings" label="Listings" />
+              <Nav.Item icon="Group" to="/clients" label="Clients" />
+              <Nav.Item icon="Planet" to="/products" label="Products" />
+              <Nav.Item icon="Contract" to="/orders" label="Orders" />
             </Nav.Plate>
             <ContentPlate>
               <Switch>
-                <ProtectedRoute exact path="/brokers" component={Brokers} />
-                <ProtectedRoute exact path="/customers" component={Customers} />
-                <ProtectedRoute exact path="/properties" component={Properties} />
-                <ProtectedRoute exact path="/listings" component={Listings} />
-                <Redirect to="/brokers" />
+                <ProtectedRoute exact path="/clients" component={Clients} />
+                <ProtectedRoute exact path="/products" component={Products} />
+                <ProtectedRoute exact path="/orders" component={Orders} />
+                <ProtectedRoute exact path="/orders/:id" component={Order} />
+                <ProtectedRoute exact path="/clients/:id" component={Client} />
+                <Redirect to="/clients" />
               </Switch>
             </ContentPlate>
           </MainPlate>

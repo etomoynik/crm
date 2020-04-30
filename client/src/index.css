@@ -6,6 +6,10 @@
   width: 100vw;
 }
 
+a {
+  text-decoration: none;
+}
+
 .fsp-picker,
 .fsp-picker * {
   transition: none;
